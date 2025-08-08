@@ -1,0 +1,170 @@
+export default {
+  component: () => import("@/layouts/PanelLayout.vue"),
+  redirect: { name: "dashboard.index" },
+  path: "/",
+  children: [
+    {
+      path: "/dashboard",
+      name: "dashboard.index",
+      component: () => import("@/pages/dashboard/DashboardIndex.vue"),
+      meta: { title: "Dashboard" },
+    },
+
+    {
+      path: "/categories",
+      name: "categories.index",
+      component: () => import("@/pages/categories/CategoriesIndex.vue"),
+      meta: { permission: "categories.index", title: "Categorias" },
+    },
+    // {
+    //   path: "/categories/create",
+    //   name: "categories.create",
+    //   component: () => import("@/pages/categories/CategoriesCreate.vue"),
+    //   meta: { permission: "categories.store", title: "Cadastrar Categoria" },
+    // },
+    // {
+    //   path: "/categories/:id/edit",
+    //   name: "categories.edit",
+    //   component: () => import("@/pages/categories/CategoriesEdit.vue"),
+    //   meta: { permission: "categories.update", title: "Editar Categoria" },
+    //   props: true,
+    // },
+    // {
+    //   path: "/categories/:id/show",
+    //   name: "categories.show",
+    //   component: () => import("@/pages/categories/CategoriesShow.vue"),
+    //   meta: { permission: "categories.show", title: "Detalhes da Categoria" },
+    //   props: true,
+    // },
+
+    {
+      path: "/products",
+      name: "products.index",
+      component: () => import("@/pages/products/ProductsIndex.vue"),
+      meta: { permission: "products.index", title: "Produtos" },
+    },
+    // {
+    //   path: "/products/create",
+    //   name: "products.create",
+    //   component: () => import("@/pages/products/ProductsCreate.vue"),
+    //   meta: { permission: "products.store", title: "Cadastrar Produto" },
+    // },
+    // {
+    //   path: "/products/:id/edit",
+    //   name: "products.edit",
+    //   component: () => import("@/pages/products/ProductsEdit.vue"),
+    //   meta: { permission: "products.update", title: "Editar Produto" },
+    //   props: true,
+    // },
+    // {
+    //   path: "/products/:id/show",
+    //   name: "products.show",
+    //   component: () => import("@/pages/products/ProductsShow.vue"),
+    //   meta: { permission: "products.show", title: "Detalhes do Produto" },
+    //   props: true,
+    // },
+    // {
+    //   path: "/products/:id/groups",
+    //   name: "products.groups",
+    //   component: () => import("@/pages/products/ProductsGroups.vue"),
+    //   meta: { permission: "products.groups", title: "Grupos e Opcionais" },
+    //   props: true,
+    // },
+
+    {
+      path: "/tables",
+      name: "tables.index",
+      component: () => import("@/pages/tables/TablesIndex.vue"),
+      meta: { permission: "tables.index", title: "Mesas" },
+    },
+    // {
+    //   path: "/tables/create",
+    //   name: "tables.create",
+    //   component: () => import("@/pages/tables/TablesCreate.vue"),
+    //   meta: { permission: "tables.store", title: "Cadastrar Mesa" },
+    // },
+    // {
+    //   path: "/tables/:id/edit",
+    //   name: "tables.edit",
+    //   component: () => import("@/pages/tables/TablesEdit.vue"),
+    //   meta: { permission: "tables.update", title: "Editar Mesa" },
+    //   props: true,
+    // },
+    // {
+    //   path: "/tables/:id/show",
+    //   name: "tables.show",
+    //   component: () => import("@/pages/tables/TablesShow.vue"),
+    //   meta: { permission: "tables.show", title: "Detalhes da Mesa" },
+    //   props: true,
+    // },
+
+    {
+      path: "/settings",
+      name: "settings.index",
+      component: () => import("@/pages/settings/Settings.vue"),
+      meta: { permission: "settings.index", title: "Configurações" },
+    },
+
+    {
+      path: "/roles",
+      name: "roles.index",
+      component: () => import("@/pages/roles/RolesIndex.vue"),
+      meta: { permission: "roles.index", title: "Papéis" },
+    },
+    {
+      path: "/roles/create",
+      name: "roles.create",
+      component: () => import("@/pages/roles/RolesCreate.vue"),
+      meta: { permission: "roles.store", title: "Cadastrar Papel" },
+    },
+    {
+      path: "/roles/:id/edit",
+      name: "roles.edit",
+      component: () => import("@/pages/roles/RolesEdit.vue"),
+      meta: { permission: "roles.update", title: "Editar Papel" },
+      props: true,
+    },
+    {
+      path: "/roles/:id/show",
+      name: "roles.show",
+      component: () => import("@/pages/roles/RolesShow.vue"),
+      meta: { permission: "roles.show", title: "Detalhes do Papel" },
+      props: true,
+    },
+
+    {
+      path: "/users",
+      name: "users.index",
+      component: () => import("@/pages/users/UsersIndex.vue"),
+      meta: { permission: "users.index", title: "Usuários" },
+    },
+    {
+      path: "/users/create",
+      name: "users.create",
+      component: () => import("@/pages/users/UsersCreate.vue"),
+      meta: { permission: "users.store", title: "Cadastrar Usuário" },
+    },
+    {
+      path: "/users/:id/edit",
+      name: "users.edit",
+      component: () => import("@/pages/users/UsersEdit.vue"),
+      meta: { permission: "users.update", title: "Editar Usuário" },
+      props: true,
+    },
+    {
+      path: "/users/:id/show",
+      name: "users.show",
+      component: () => import("@/pages/users/UsersShow.vue"),
+      meta: { permission: "users.show", title: "Detalhes do Usuário" },
+      props: true,
+    },
+
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("@/pages/auth/Profile.vue"),
+      meta: { title: "Meus Dados" },
+    },
+  ],
+  meta: { auth: true },
+};

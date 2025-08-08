@@ -1,0 +1,63 @@
+<script setup>
+import { ref, watch, computed } from "vue";
+import { useTablesStore } from "@/stores/tables";
+
+const props = defineProps({
+  modelValue: Boolean,
+  id: String,
+});
+const emit = defineEmits(["update:modelValue"]);
+const store = useTablesStore();
+const data = ref(null);
+
+const close = () => emit("update:modelValue", false);
+
+const isOpen = computed({
+  get: () => props.modelValue,
+  set: (val) => emit("update:modelValue", val),
+});
+
+watch(
+  () => props.id,
+  async (id) => {
+    if (props.modelValue && id) {
+      data.value = null;
+      data.value = await store.findTableById(id);
+    }
+  },
+  { immediate: true }
+);
+</script>
+
+<template>
+  <v-navigation-drawer
+    location="right"
+    temporary
+    width="400"
+    v-model="isOpen"
+    :scrim="true"
+    :fullscreen="false"
+  >
+    <v-card :loading="store.loading">
+      <v-toolbar color="white">
+        <v-toolbar-title class="font-weight-bold">Mesa</v-toolbar-title>
+        <v-spacer />
+        <v-btn icon @click="close" variant="text">
+          <v-icon>lucide:X</v-icon>
+        </v-btn>
+      </v-toolbar>
+      <v-card-text class="px-5" v-if="data">
+        <p>
+          <strong>Número:</strong> {{ String(data.number).padStart(2, "0") }}
+        </p>
+        <v-chip
+          class="mt-4"
+          :color="data.active ? 'green' : 'red'"
+          :text="data.active ? 'Ativo' : 'Inativo'"
+          size="x-small"
+          label
+        />
+      </v-card-text>
+    </v-card>
+  </v-navigation-drawer>
+</template>

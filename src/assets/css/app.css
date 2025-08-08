@@ -1,0 +1,12 @@
+.v-btn {
+    text-transform: none !important;
+}
+
+.v-navigation-drawer .v-list-item__prepend {
+    margin-right: -20px !important;
+}
+
+.custom-list-item.v-list-item--active {
+    background-color: rgb(var(--v-theme-primary)) !important;
+    color: white !important;
+}
