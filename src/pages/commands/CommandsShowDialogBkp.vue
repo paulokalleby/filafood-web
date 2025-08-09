@@ -10,13 +10,28 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 const store = useCommandsStore();
 const data = ref(null);
-
-const close = () => emit("update:modelValue", false);
+const step = ref(0);
 
 const isOpen = computed({
   get: () => props.modelValue,
   set: (val) => emit("update:modelValue", val),
 });
+
+const getPaymentsMethods = async () => {
+  step.value = 1;
+  if (store.payments.length == 0) await store.getPayments();
+};
+
+const handlerCancelCommand = async () => {
+  if (data?.items.length > 0) return;
+  await store.cancelCommand(props.id);
+  close();
+};
+
+const close = () => {
+  step.value = 0;
+  emit("update:modelValue", false);
+};
 
 watch(
   () => props.id,
@@ -47,16 +62,15 @@ watch(
           <v-icon>lucide:X</v-icon>
         </v-btn>
       </v-toolbar>
-      <v-card-text class="px-5 flex-grow-1 overflow-y-auto">
-        <p class="mb-3">
+
+      <v-card-text v-if="step == 0" class="px-5 flex-grow-1 overflow-y-auto">
+        <p>
           <strong>{{ data?.identify }}</strong>
         </p>
-        <v-card class="border">
-          <v-card-text>
-            <small>Mesa</small>
-            <h1>{{ String(data?.table.number).padStart(2, "0") }}</h1>
-          </v-card-text>
-        </v-card>
+        <p>
+          <strong>Mesa:</strong>
+          {{ String(data?.table.number).padStart(2, "0") }}
+        </p>
 
         <v-chip
           class="mt-4"
@@ -81,25 +95,67 @@ watch(
               {{ item.quantity }} x {{ formatCurrency(item.price) }}
             </p>
           </v-card>
+
+          <v-radio-group label="Meios de pagamento">
+            <v-radio
+              v-for="payment in store.payments"
+              :key="payment.value"
+              :label="payment.label"
+              :value="payment.value"
+              class="border rounded-lg py-2 px-2 mb-2"
+            />
+          </v-radio-group>
         </div>
       </v-card-text>
 
-      <v-card-actions class="px-5 py-4 border-t">
-        <!-- <v-btn
-          @click="close"
-          class="float-start"
-          text="Cancelar"
-          color="dark"
-          variant="plain"
-        />
-       -->
+      <v-card-text v-if="step == 1" class="px-5 flex-grow-1 overflow-y-auto">
+        <v-col>
+          <v-radio-group label="Meios de pagamento">
+            <v-radio
+              v-for="payment in store.payments"
+              :key="payment.value"
+              :label="payment.label"
+              :value="payment.value"
+              class="border rounded-lg py-2 px-2 mb-2"
+            />
+          </v-radio-group>
+        </v-col>
+      </v-card-text>
+
+      <v-card-actions
+        class="px-5 py-4 border-t"
+        v-if="data?.status.value == 'Open' && step == 0"
+      >
         <h3>{{ formatCurrency(data?.total) }}</h3>
         <v-spacer />
         <v-btn
+          v-if="data?.items.length > 0"
+          @click="getPaymentsMethods"
           variant="flat"
           color="primary"
           text="Encerrar"
           append-icon="lucide:MoveRight"
+          class="px-4"
+        />
+      </v-card-actions>
+
+      <v-card-actions
+        class="px-5 py-4 border-t"
+        v-if="data?.status.value == 'Open' && step == 1"
+      >
+        <v-btn
+          @click="step = 0"
+          variant="text"
+          color="dark"
+          text="Retornar"
+          prepend-icon="lucide:MoveLeft"
+        />
+        <v-spacer />
+        <v-btn
+          variant="flat"
+          color="primary"
+          text="Pagar"
+          append-icon="lucide:Check"
           class="px-4"
         />
       </v-card-actions>
