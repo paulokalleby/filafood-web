@@ -99,6 +99,11 @@ export default createVuetify({
       dropdown: "lucide:ChevronDown",
       clearIcon: "lucide:CircleX",
     },
+    VRadioGroup: {
+      color: "primary",
+      variant: "outlined",
+      density: "compact",
+    },
     VSwitch: {
       color: "primary",
       density: "compact",
