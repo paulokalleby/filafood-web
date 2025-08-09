@@ -23,6 +23,7 @@ export const useCommandsStore = defineStore("commands", () => {
   });
 
   const tables = ref([]);
+  const payments = ref([]);
 
   const search = reactive({
     identify: "",
@@ -59,6 +60,17 @@ export const useCommandsStore = defineStore("commands", () => {
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Erro ao carregar categorias"
+      );
+    }
+  };
+
+  const getPayments = async () => {
+    try {
+      const response = await http.get("/payments");
+      payments.value = response.data.data;
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Erro ao carregar meios de pagamento"
       );
     }
   };
@@ -112,17 +124,24 @@ export const useCommandsStore = defineStore("commands", () => {
     }
   };
 
-  const deleteCommand = async (id) => {
-    deleting.value = true;
+  const cancelCommand = async (id) => {
+    updating.value = true;
     try {
-      await http.delete(`/commands/${id}`);
-      commands.meta.total = commands.meta.total - 1;
-      commands.data = commands.data.filter((command) => command.id !== id);
-      toast.success("Registro excluído com sucesso!");
+      const response = await http.put(`/commands/${id}`, {
+        status: "Cancelled",
+      });
+      const updatedCommand = response.data.data;
+      const index = commands.data.findIndex((module) => module.id === id);
+      if (index !== -1) {
+        commands.data[index] = updatedCommand;
+      }
+      toast.success("Registro atualizado com sucesso!");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Erro ao excluir registro");
+      toast.error(
+        error.response?.data?.message || "Erro ao atualizar registro"
+      );
     } finally {
-      deleting.value = false;
+      updating.value = false;
     }
   };
 
@@ -138,6 +157,7 @@ export const useCommandsStore = defineStore("commands", () => {
   return {
     commands,
     tables,
+    payments,
     search,
     loading,
     creating,
@@ -145,10 +165,11 @@ export const useCommandsStore = defineStore("commands", () => {
     deleting,
     getCommands,
     getTables,
+    getPayments,
     findCommandById,
     createCommand,
     updateCommand,
-    deleteCommand,
+    cancelCommand,
     clearSearch,
     doResearch,
   };
