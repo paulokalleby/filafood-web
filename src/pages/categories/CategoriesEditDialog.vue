@@ -39,7 +39,6 @@ watch(
   async (id) => {
     if (props.modelValue && id) {
       data.value = await store.findCategoryById(id);
-      await store.getDepartments();
     }
   },
   { immediate: true }

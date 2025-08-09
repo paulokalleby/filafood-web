@@ -46,6 +46,7 @@ const pageTitle = computed(() => route.meta.title || "");
 
       <v-list nav>
         <v-list-item
+          key="dashboard.index"
           prepend-icon="lucide:Home"
           :to="{ name: 'dashboard.index' }"
           title="Dashboard"
@@ -57,6 +58,7 @@ const pageTitle = computed(() => route.meta.title || "");
         </v-list-item>
 
         <v-list-item
+          key="commands.index"
           v-can="'commands.index'"
           prepend-icon="lucide:ReceiptText"
           :to="{ name: 'commands.index' }"
@@ -69,6 +71,7 @@ const pageTitle = computed(() => route.meta.title || "");
         </v-list-item>
 
         <v-list-item
+          key="categories.index"
           v-can="'categories.index'"
           prepend-icon="lucide:Layers"
           :to="{ name: 'categories.index' }"
@@ -81,6 +84,7 @@ const pageTitle = computed(() => route.meta.title || "");
         </v-list-item>
 
         <v-list-item
+          key="products.index"
           v-can="'products.index'"
           prepend-icon="lucide:Hamburger"
           :to="{ name: 'products.index' }"
@@ -93,6 +97,7 @@ const pageTitle = computed(() => route.meta.title || "");
         </v-list-item>
 
         <v-list-item
+          key="tables.index"
           v-can="'tables.index'"
           prepend-icon="lucide:Grip"
           :to="{ name: 'tables.index' }"
@@ -111,6 +116,7 @@ const pageTitle = computed(() => route.meta.title || "");
         />
 
         <v-list-item
+          key="roles.index"
           v-can="'roles.index'"
           prepend-icon="lucide:ShieldUser"
           :to="{ name: 'roles.index' }"
@@ -123,6 +129,7 @@ const pageTitle = computed(() => route.meta.title || "");
         </v-list-item>
 
         <v-list-item
+          key="user.index"
           v-can="'users.index'"
           prepend-icon="lucide:Users"
           :to="{ name: 'users.index' }"

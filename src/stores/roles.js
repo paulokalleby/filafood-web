@@ -10,7 +10,7 @@ export const useRolesStore = defineStore("roles", () => {
   const creating = ref(false);
   const updating = ref(false);
   const deleting = ref(false);
-  const loading = ref(false);
+  const loading = ref(true);
 
   const roles = reactive({
     data: [],

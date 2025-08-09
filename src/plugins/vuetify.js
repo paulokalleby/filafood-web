@@ -31,7 +31,7 @@ export default createVuetify({
   },
   defaults: {
     global: {
-      ripple: false,
+      ripple: true,
       style: {
         //fontFamily: "Poppins, sans-serif",
       },
