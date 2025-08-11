@@ -5,7 +5,9 @@ import { useCategoriesStore } from "@/stores/categories";
 import { ref, computed, onMounted } from "vue";
 
 onMounted(async () => {
-  await store.getDepartments();
+  if (store.departments.length <= 0) {
+    await store.getDepartments();
+  }
 });
 
 const store = useCategoriesStore();
