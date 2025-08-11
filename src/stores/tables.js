@@ -10,7 +10,7 @@ export const useTablesStore = defineStore("tables", () => {
   const creating = ref(false);
   const updating = ref(false);
   const deleting = ref(false);
-  const loading = ref(false);
+  const loading = ref(true);
 
   const tables = reactive({
     data: [],
