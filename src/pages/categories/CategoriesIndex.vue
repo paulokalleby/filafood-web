@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import dayjs from "@/plugins/dayjs";
 import { useCategoriesStore } from "@/stores/categories";
 import ConfirmDeleteModal from "@/components/ConfirmDeleteModal.vue";
@@ -9,8 +9,9 @@ import CategoriesShowDialog from "./CategoriesShowDialog.vue";
 import CategoriesCreateDialog from "./CategoriesCreateDialog.vue";
 import CategoriesEditDialog from "./CategoriesEditDialog.vue";
 
-onMounted(() => {
-  store.getCategories();
+onMounted(async () => {
+  await store.getCategories();
+  await store.getDepartments();
 });
 
 const store = useCategoriesStore();
@@ -41,6 +42,10 @@ const openDeleteDialog = (id) => {
   selectedIdForDelete.value = id;
   deleteDialog.value.openModal();
 };
+
+const departmentsWithAll = computed(() => {
+  return [{ label: "Todos", value: "" }, ...store.departments];
+});
 </script>
 
 <template>
@@ -79,12 +84,8 @@ const openDeleteDialog = (id) => {
         v-model="store.search.department"
         @update:model-value="store.doResearch"
         label="Departamento"
-        :items="[
-          { name: 'Todos', value: '' },
-          { name: 'Cozinha', value: 'Kitchen' },
-          { name: 'Bar', value: 'Bar' },
-        ]"
-        item-title="name"
+        :items="departmentsWithAll"
+        item-title="label"
         item-value="value"
       />
     </v-col>

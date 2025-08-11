@@ -2,11 +2,7 @@
 import useVuelidate from "@vuelidate/core";
 import { categoryRules } from "@/validations/category.rules";
 import { useCategoriesStore } from "@/stores/categories";
-import { ref, computed, onMounted } from "vue";
-
-onMounted(async () => {
-  await store.getDepartments();
-});
+import { ref, computed } from "vue";
 
 const store = useCategoriesStore();
 
