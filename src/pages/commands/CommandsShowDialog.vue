@@ -48,13 +48,15 @@ watch(
         </v-btn>
       </v-toolbar>
       <v-card-text class="px-5 flex-grow-1 overflow-y-auto">
-        <p>
+        <p class="mb-3">
           <strong>{{ data?.identify }}</strong>
         </p>
-        <p>
-          <strong>Mesa:</strong>
-          {{ String(data?.table.number).padStart(2, "0") }}
-        </p>
+        <v-card class="border">
+          <v-card-text>
+            <small>Mesa</small>
+            <h1>{{ String(data?.table.number).padStart(2, "0") }}</h1>
+          </v-card-text>
+        </v-card>
 
         <v-chip
           class="mt-4"
