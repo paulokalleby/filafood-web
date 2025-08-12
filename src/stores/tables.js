@@ -82,6 +82,20 @@ export const useTablesStore = defineStore("tables", () => {
     }
   };
 
+  const createTablesInBatch = async (payload) => {
+    creating.value = true;
+    try {
+      const response = await http.post("/tables/batch", payload);
+      const newTable = response.data.data;
+      tables.data.push(...newTable);
+      toast.success("Registros criados com sucesso!");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Erro ao criar registros");
+    } finally {
+      creating.value = false;
+    }
+  };
+
   const updateTable = async (id, payload) => {
     updating.value = true;
     try {
@@ -134,6 +148,7 @@ export const useTablesStore = defineStore("tables", () => {
     getTables,
     findTableById,
     createTable,
+    createTablesInBatch,
     updateTable,
     deleteTable,
     clearSearch,
