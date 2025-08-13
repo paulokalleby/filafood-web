@@ -15,10 +15,19 @@ export default defineConfig({
     Components(),
     ViteFonts({
       google: {
+        families: [{ name: "Roboto", styles: "wght@100;300;400;500;700;900" }],
+      },
+      custom: {
         families: [
           {
-            name: "Roboto",
-            styles: "wght@100;300;400;500;700;900",
+            name: "Material Design Icons",
+            local: "MaterialDesignIcons",
+            src: [
+              "./src/assets/fonts/materialdesignicons-webfont.woff2",
+              "./src/assets/fonts/materialdesignicons-webfont.woff",
+              "./src/assets/fonts/materialdesignicons-webfont.ttf",
+            ],
+            preload: true, // habilita preload correto
           },
         ],
       },
