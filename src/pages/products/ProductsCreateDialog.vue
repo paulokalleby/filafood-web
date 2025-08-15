@@ -17,7 +17,7 @@ const previewUrl = ref(null);
 const fileInput = ref(null);
 
 const data = ref({
-  product: "",
+  category: "",
   name: "",
   price: "",
   description: "",
@@ -26,7 +26,7 @@ const data = ref({
 
 const resetForm = () => {
   data.value = {
-    product: "",
+    category: "",
     name: "",
     price: "",
     description: "",
