@@ -1,19 +1,20 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import dayjs from "@/plugins/dayjs";
-import { useRolesStore } from "@/stores/roles";
+import { useLocationsStore } from "@/stores/locations";
 import ConfirmDeleteModal from "@/components/ConfirmDeleteModal.vue";
 import SkeletonLoader from "@/components/SkeletonLoader.vue";
-import RolesShowDialog from "./RolesShowDialog.vue";
-import RolesCreateDialog from "./RolesCreateDialog.vue";
-import RolesEditDialog from "./RolesEditDialog.vue";
+import EmptyData from "@/components/EmptyData.vue";
+import LocationsShowDialog from "./LocationsShowDialog.vue";
+import LocationsCreateDialog from "./LocationsCreateDialog.vue";
+import LocationsEditDialog from "./LocationsEditDialog.vue";
 
-onMounted(() => {
-  store.getRoles();
-  store.getResources();
+onMounted(async () => {
+  await store.getLocations();
+  await store.getDepartments();
 });
 
-const store = useRolesStore();
+const store = useLocationsStore();
 const selectedIdForDelete = ref(null);
 const selectedIdForShow = ref(null);
 const selectedIdForEdit = ref(null);
@@ -48,19 +49,19 @@ const openDeleteDialog = (id) => {
     :itemId="selectedIdForDelete"
     :deleting="store.deleting"
     ref="deleteDialog"
-    @confirm-delete="store.deleteRole"
+    @confirm-delete="store.deleteLocation"
   />
 
-  <RolesCreateDialog v-model="createDialog" />
-  <RolesEditDialog v-model="editDialog" :id="selectedIdForEdit" />
-  <RolesShowDialog v-model="showDialog" :id="selectedIdForShow" />
+  <LocationsCreateDialog v-model="createDialog" />
+  <LocationsEditDialog v-model="editDialog" :id="selectedIdForEdit" />
+  <LocationsShowDialog v-model="showDialog" :id="selectedIdForShow" />
 
   <v-row class="mb-8">
     <v-col cols="12">
       <v-breadcrumbs class="py-0 px-0">
-        <v-breadcrumbs-item :to="'/'"> Home </v-breadcrumbs-item>
+        <v-breadcrumbs-item :to="'/'"> Dashboard </v-breadcrumbs-item>
         <v-breadcrumbs-divider />
-        <v-breadcrumbs-item disabled> Papéis </v-breadcrumbs-item>
+        <v-breadcrumbs-item disabled> Locais de Preparo </v-breadcrumbs-item>
       </v-breadcrumbs>
     </v-col>
   </v-row>
@@ -90,20 +91,19 @@ const openDeleteDialog = (id) => {
       />
     </v-col>
 
-    <v-col cols="12" md="7" class="py-0">
+    <v-col cols="12" md="7" class="py-0 mb-3">
       <v-btn
-        variant="text"
+        variant="plain"
         size="small"
-        color="dark"
         icon="lucide:RefreshCw"
         @click="store.clearSearch"
+        color="dark"
       />
 
       <v-btn
-        v-can="'roles.store'"
+        v-can="'locations.store'"
         prepend-icon="lucide:Plus"
         @click.prevent="openCreateDialog()"
-        color="primary"
         variant="flat"
         class="float-end"
         text="Novo"
@@ -111,10 +111,10 @@ const openDeleteDialog = (id) => {
     </v-col>
   </v-row>
 
-  <SkeletonLoader v-if="store.loading" :rows="store.roles.meta.per_page" />
+  <SkeletonLoader v-if="store.loading" :rows="store.locations.meta.per_page" />
 
   <div v-else>
-    <EmptyData v-if="store.roles.data.length <= 0" />
+    <EmptyData v-if="store.locations.data.length <= 0" />
 
     <v-card class="border mt-4" v-else>
       <v-table density="default">
@@ -122,9 +122,6 @@ const openDeleteDialog = (id) => {
           <tr>
             <th class="text-left">
               <b>Nome</b>
-            </th>
-            <th class="text-left">
-              <b>Usuários</b>
             </th>
             <th class="text-left">
               <b>Atualizado</b>
@@ -136,16 +133,13 @@ const openDeleteDialog = (id) => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="role in store.roles.data" :key="role.id">
-            <td>{{ role.name }}</td>
-            <td>
-              {{ role.count_users }}
-            </td>
-            <td>{{ dayjs(role.updated).fromNow() }}</td>
+          <tr v-for="location in store.locations.data" :key="location.id">
+            <td>{{ location.name }}</td>
+            <td>{{ dayjs(location.updated).fromNow() }}</td>
             <td>
               <v-chip
-                :color="role.active ? 'green' : 'red'"
-                :text="role.active ? 'Ativo' : 'Inativo'"
+                :color="location.active ? 'green' : 'red'"
+                :text="location.active ? 'Ativo' : 'Inativo'"
                 size="x-small"
                 label
               ></v-chip>
@@ -154,8 +148,8 @@ const openDeleteDialog = (id) => {
               <v-tooltip text="Visualizar">
                 <template #activator="{ props }">
                   <v-btn
-                    v-can="'roles.show'"
-                    @click.prevent="openShowDialog(role.id)"
+                    v-can="'locations.show'"
+                    @click.prevent="openShowDialog(location.id)"
                     icon
                     size="small"
                     variant="text"
@@ -170,8 +164,8 @@ const openDeleteDialog = (id) => {
               <v-tooltip text="Editar">
                 <template #activator="{ props }">
                   <v-btn
-                    v-can="'roles.update'"
-                    @click.prevent="openEditDialog(role.id)"
+                    v-can="'locations.update'"
+                    @click.prevent="openEditDialog(location.id)"
                     icon
                     size="small"
                     variant="text"
@@ -186,8 +180,8 @@ const openDeleteDialog = (id) => {
               <v-tooltip text="Excluir">
                 <template #activator="{ props }">
                   <v-btn
-                    v-can="'roles.destroy'"
-                    @click="openDeleteDialog(role.id)"
+                    v-can="'locations.destroy'"
+                    @click="openDeleteDialog(location.id)"
                     icon
                     size="small"
                     variant="text"
@@ -206,11 +200,11 @@ const openDeleteDialog = (id) => {
 
     <div class="text-center mt-3">
       <v-pagination
-        v-if="store.roles.meta.total > store.roles.meta.per_page"
-        @update:model-value="store.getRoles"
-        v-model="store.roles.meta.current_page"
-        :length="store.roles.meta.last_page"
-        :total-visible="store.roles.meta.per_page"
+        v-if="store.locations.meta.total > store.locations.meta.per_page"
+        @update:model-value="store.getLocations"
+        v-model="store.locations.meta.current_page"
+        :length="store.locations.meta.last_page"
+        :total-visible="store.locations.meta.per_page"
         prev-icon="mdi-menu-left"
         next-icon="mdi-menu-right"
         size="small"

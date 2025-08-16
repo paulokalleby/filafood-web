@@ -1,9 +1,6 @@
 import { helpers, maxLength, minLength, required } from "@vuelidate/validators";
 
-export const categoryRules = {
-  location: {
-    required: helpers.withMessage("Selecione um local", required),
-  },
+export const locationRules = {
   name: {
     required: helpers.withMessage("Informe o nome", required),
     minLength: helpers.withMessage(

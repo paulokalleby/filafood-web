@@ -1,10 +1,10 @@
 <script setup>
 import useVuelidate from "@vuelidate/core";
-import { categoryRules } from "@/validations/category.rules";
-import { useCategoriesStore } from "@/stores/categories";
+import { locationRules } from "@/validations/location.rules";
+import { useLocationsStore } from "@/stores/locations";
 import { ref, computed } from "vue";
 
-const store = useCategoriesStore();
+const store = useLocationsStore();
 
 const props = defineProps({
   modelValue: Boolean,
@@ -14,8 +14,6 @@ const emit = defineEmits(["update:modelValue"]);
 
 const data = ref({
   name: "",
-  location: "",
-  confirmation: false,
   active: true,
 });
 
@@ -27,17 +25,16 @@ const isOpen = computed({
 const resetForm = () => {
   data.value = {
     name: "",
-    location: "",
     active: true,
   };
   v$.value.$reset();
 };
 
-const v$ = useVuelidate(categoryRules, data.value);
+const v$ = useVuelidate(locationRules, data.value);
 
 const handlerStore = async () => {
   if (!(await v$.value.$validate())) return;
-  await store.createCategory(data.value);
+  await store.createLocation(data.value);
   close();
 };
 
@@ -59,7 +56,7 @@ const close = () => {
     <v-card class="d-flex flex-column h-100">
       <v-toolbar color="white">
         <v-toolbar-title class="font-weight-bold"
-          >Cadastrar Categoria</v-toolbar-title
+          >Cadastrar Local</v-toolbar-title
         >
         <v-spacer />
         <v-btn icon @click="close" variant="plain">
@@ -76,28 +73,6 @@ const close = () => {
                 @input="v$.name.$touch"
                 @blur="v$.name.$touch"
                 label="Nome"
-              />
-            </v-col>
-
-            <v-col cols="12" class="pb-0">
-              <v-select
-                v-model="data.location"
-                :error-messages="v$.location.$errors.map((e) => e.$message)"
-                @input="v$.location.$touch"
-                @blur="v$.location.$touch"
-                label="Local de Preparo"
-                :items="store.locations"
-                item-title="name"
-                item-value="id"
-                return-object
-              />
-            </v-col>
-
-            <v-col cols="12" class="py-0 ml-2">
-              <v-switch
-                v-model="data.confirmation"
-                label="Confirmar entrega"
-                hide-details
               />
             </v-col>
 

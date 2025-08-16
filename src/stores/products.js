@@ -91,7 +91,7 @@ export const useProductsStore = defineStore("products", () => {
         formData.append("image", file.value);
       }
       formData.append("name", payload.name);
-      formData.append("category_id", payload.category);
+      formData.append("category_id", payload.category?.id);
       formData.append("price", payload.price);
       formData.append("description", payload.description);
       formData.append("preparation", payload.preparation ? 1 : 0);
@@ -124,12 +124,7 @@ export const useProductsStore = defineStore("products", () => {
 
       formData.append("_method", "PUT");
       formData.append("name", payload.name);
-      formData.append(
-        "category_id",
-        typeof payload.category === "object" && payload.category !== null
-          ? payload.category.id
-          : payload.category
-      );
+      formData.append("category_id", payload.category?.id);
       formData.append("price", payload.price);
       formData.append("description", payload.description);
       formData.append("preparation", payload.preparation ? 1 : 0);
@@ -141,9 +136,10 @@ export const useProductsStore = defineStore("products", () => {
         },
       });
 
-      const updateProduct = response.data.data;
+      //const updateProduct = response.data.data;
+      payload.image = response.data.data.image;
       const index = products.data.findIndex((product) => product.id === id);
-      if (index !== -1) products.data[index] = updateProduct;
+      if (index !== -1) products.data[index] = payload;
       toast.success("Registro atualizado com sucesso!");
     } catch (error) {
       toast.error(

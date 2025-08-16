@@ -183,7 +183,7 @@ const categoriesWithAll = computed(() => {
                 label
               ></v-chip>
             </td>
-            <td class="text-right">
+            <td class="text-right td-actions">
               <v-tooltip text="Visualizar">
                 <template #activator="{ props }">
                   <v-btn

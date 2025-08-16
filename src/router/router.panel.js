@@ -18,6 +18,13 @@ export default {
     },
 
     {
+      path: "/locations",
+      name: "locations.index",
+      component: () => import("@/pages/locations/LocationsIndex.vue"),
+      meta: { permission: "locations.index", title: "Locais de Preparo" },
+    },
+
+    {
       path: "/categories",
       name: "categories.index",
       component: () => import("@/pages/categories/CategoriesIndex.vue"),

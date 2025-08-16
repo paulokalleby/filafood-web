@@ -11,8 +11,6 @@ const data = ref({
   company: "",
   name: "",
   email: "",
-  cellphone: "",
-  document: "",
   password: "",
 });
 
@@ -61,26 +59,6 @@ const handlerRegister = async () => {
           @input="v$.email.$touch"
           @blur="v$.email.$touch"
           label="Email"
-          density="compact"
-        />
-      </v-col>
-      <v-col cols="12" class="text-start pt-0 pb-2">
-        <v-text-field
-          v-model="data.cellphone"
-          :error-messages="v$.cellphone.$errors.map((e) => e.$message)"
-          @input="v$.cellphone.$touch"
-          @blur="v$.cellphone.$touch"
-          label="Celular"
-          density="compact"
-        />
-      </v-col>
-      <v-col cols="12" class="text-start pt-0 pb-2">
-        <v-text-field
-          v-model="data.document"
-          :error-messages="v$.document.$errors.map((e) => e.$message)"
-          @input="v$.document.$touch"
-          @blur="v$.document.$touch"
-          label="CPF ou CNPJ"
           density="compact"
         />
       </v-col>

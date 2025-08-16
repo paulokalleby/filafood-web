@@ -69,6 +69,18 @@ const pageTitle = computed(() => route.meta.title || "");
         </v-list-item>
 
         <v-list-item
+          v-can="'locations.index'"
+          prepend-icon="lucide:CookingPot"
+          :to="{ name: 'locations.index' }"
+          title="Locais de Preparo"
+          density="compact"
+        >
+          <template v-slot:prepend>
+            <v-icon size="20" />
+          </template>
+        </v-list-item>
+
+        <v-list-item
           v-can="'categories.index'"
           prepend-icon="lucide:Layers"
           :to="{ name: 'categories.index' }"

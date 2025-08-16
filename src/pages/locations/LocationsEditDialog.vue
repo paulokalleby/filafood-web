@@ -1,22 +1,20 @@
 <script setup>
+import { ref, watch, computed } from "vue";
 import useVuelidate from "@vuelidate/core";
-import { categoryRules } from "@/validations/category.rules";
-import { useCategoriesStore } from "@/stores/categories";
-import { ref, computed } from "vue";
-
-const store = useCategoriesStore();
+import { locationRules } from "@/validations/location.rules";
+import { useLocationsStore } from "@/stores/locations";
 
 const props = defineProps({
   modelValue: Boolean,
+  id: String,
 });
-
 const emit = defineEmits(["update:modelValue"]);
+
+const store = useLocationsStore();
 
 const data = ref({
   name: "",
-  location: "",
-  confirmation: false,
-  active: true,
+  active: false,
 });
 
 const isOpen = computed({
@@ -24,27 +22,25 @@ const isOpen = computed({
   set: (val) => emit("update:modelValue", val),
 });
 
-const resetForm = () => {
-  data.value = {
-    name: "",
-    location: "",
-    active: true,
-  };
-  v$.value.$reset();
-};
+const v$ = useVuelidate(locationRules, data);
 
-const v$ = useVuelidate(categoryRules, data.value);
-
-const handlerStore = async () => {
+const handlerUpdate = async () => {
   if (!(await v$.value.$validate())) return;
-  await store.createCategory(data.value);
+  await store.updateLocation(props.id, data.value);
   close();
 };
 
-const close = () => {
-  resetForm();
-  emit("update:modelValue", false);
-};
+const close = () => emit("update:modelValue", false);
+
+watch(
+  () => props.id,
+  async (id) => {
+    if (props.modelValue && id) {
+      data.value = await store.findLocationById(id);
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
@@ -58,16 +54,15 @@ const close = () => {
   >
     <v-card class="d-flex flex-column h-100">
       <v-toolbar color="white">
-        <v-toolbar-title class="font-weight-bold"
-          >Cadastrar Categoria</v-toolbar-title
-        >
+        <v-toolbar-title class="font-weight-bold">Editar Local</v-toolbar-title>
         <v-spacer />
         <v-btn icon @click="close" variant="plain">
           <v-icon>lucide:X</v-icon>
         </v-btn>
       </v-toolbar>
+
       <v-card-text class="px-5 flex-grow-1 overflow-y-auto">
-        <v-form @submit.prevent="handlerStore" class="my-3">
+        <v-form @submit.prevent="handlerUpdate" class="my-3">
           <v-row>
             <v-col cols="12" class="pb-0">
               <v-text-field
@@ -76,32 +71,11 @@ const close = () => {
                 @input="v$.name.$touch"
                 @blur="v$.name.$touch"
                 label="Nome"
+                :loading="store.loading"
               />
             </v-col>
 
-            <v-col cols="12" class="pb-0">
-              <v-select
-                v-model="data.location"
-                :error-messages="v$.location.$errors.map((e) => e.$message)"
-                @input="v$.location.$touch"
-                @blur="v$.location.$touch"
-                label="Local de Preparo"
-                :items="store.locations"
-                item-title="name"
-                item-value="id"
-                return-object
-              />
-            </v-col>
-
-            <v-col cols="12" class="py-0 ml-2">
-              <v-switch
-                v-model="data.confirmation"
-                label="Confirmar entrega"
-                hide-details
-              />
-            </v-col>
-
-            <v-col cols="12" class="py-0 ml-2">
+            <v-col cols="12" md="12" class="py-0 ml-2">
               <v-switch v-model="data.active" label="Ativo" hide-details />
             </v-col>
           </v-row>
@@ -110,13 +84,13 @@ const close = () => {
 
       <v-card-actions class="px-5 py-4 border-t">
         <v-btn
-          :loading="store.creating"
-          @click="handlerStore"
+          :loading="store.updating"
+          type="submit"
           variant="flat"
-          class="float-start mr-2"
+          color="primary"
+          @click="handlerUpdate"
           text="Salvar"
         />
-
         <v-btn
           @click="close"
           class="float-start"

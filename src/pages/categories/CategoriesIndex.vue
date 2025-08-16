@@ -11,7 +11,7 @@ import CategoriesEditDialog from "./CategoriesEditDialog.vue";
 
 onMounted(async () => {
   await store.getCategories();
-  await store.getDepartments();
+  await store.getLocations();
 });
 
 const store = useCategoriesStore();
@@ -43,8 +43,8 @@ const openDeleteDialog = (id) => {
   deleteDialog.value.openModal();
 };
 
-const departmentsWithAll = computed(() => {
-  return [{ label: "Todos", value: "" }, ...store.departments];
+const locationsWithAll = computed(() => {
+  return [{ name: "Todos", id: "" }, ...store.locations];
 });
 </script>
 
@@ -79,14 +79,14 @@ const departmentsWithAll = computed(() => {
         prepend-inner-icon="lucide:Search"
       />
     </v-col>
-    <v-col cols="12" md="2" class="py-0">
+    <v-col cols="12" md="3" class="py-0">
       <v-select
-        v-model="store.search.department"
+        v-model="store.search.location"
         @update:model-value="store.doResearch"
-        label="Departamento"
-        :items="departmentsWithAll"
-        item-title="label"
-        item-value="value"
+        label="Local de Preparo"
+        :items="locationsWithAll"
+        item-title="name"
+        item-value="id"
       />
     </v-col>
 
@@ -105,7 +105,7 @@ const departmentsWithAll = computed(() => {
       />
     </v-col>
 
-    <v-col cols="12" md="5" class="py-0 mb-3">
+    <v-col cols="12" md="4" class="py-0 mb-3">
       <v-btn
         variant="plain"
         size="small"
@@ -138,7 +138,7 @@ const departmentsWithAll = computed(() => {
               <b>Nome</b>
             </th>
             <th class="text-left">
-              <b>Departamento</b>
+              <b>Local de Preparo</b>
             </th>
             <th class="text-left">
               <b>Confirmação</b>
@@ -155,7 +155,7 @@ const departmentsWithAll = computed(() => {
         <tbody>
           <tr v-for="category in store.categories.data" :key="category.id">
             <td>{{ category.name }}</td>
-            <td>{{ category.department.label }}</td>
+            <td>{{ category.location.name }}</td>
             <td>{{ category.confirmation ? "Sim" : "Não" }}</td>
             <td>{{ dayjs(category.updated).fromNow() }}</td>
             <td>
@@ -166,7 +166,7 @@ const departmentsWithAll = computed(() => {
                 label
               ></v-chip>
             </td>
-            <td class="text-right">
+            <td class="text-right td-actions">
               <v-tooltip text="Visualizar">
                 <template #activator="{ props }">
                   <v-btn

@@ -14,7 +14,7 @@ const store = useCategoriesStore();
 
 const data = ref({
   name: "",
-  department: "",
+  location: "",
   confirmation: false,
   active: false,
 });
@@ -81,14 +81,15 @@ watch(
 
             <v-col cols="12" class="pb-0">
               <v-select
-                v-model="data.department"
-                :error-messages="v$.department.$errors.map((e) => e.$message)"
-                @input="v$.department.$touch"
-                @blur="v$.department.$touch"
-                label="Departamento"
-                :items="store.departments"
-                item-title="label"
-                item-value="value"
+                v-model="data.location"
+                :error-messages="v$.location.$errors.map((e) => e.$message)"
+                @input="v$.location.$touch"
+                @blur="v$.location.$touch"
+                label="Local de Preparo"
+                :items="store.locations"
+                item-title="name"
+                item-value="id"
+                return-object
               />
             </v-col>
 

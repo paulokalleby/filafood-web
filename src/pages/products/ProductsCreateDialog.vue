@@ -122,6 +122,7 @@ const close = () => {
                 @input="v$.category.$touch"
                 @blur="v$.category.$touch"
                 density="compact"
+                return-object
               />
             </v-col>
 

@@ -22,11 +22,11 @@ export const useCategoriesStore = defineStore("categories", () => {
     },
   });
 
-  const departments = ref([]);
+  const locations = ref([]);
 
   const search = reactive({
     name: "",
-    department: "",
+    location: "",
     active: "",
   });
 
@@ -39,7 +39,7 @@ export const useCategoriesStore = defineStore("categories", () => {
           paginas: categories.meta.per_page,
           page: categories.meta.current_page,
           name: search.name || undefined,
-          department: search.department || undefined,
+          location_id: search.location || undefined,
           active: search.active || undefined,
         },
       });
@@ -52,14 +52,12 @@ export const useCategoriesStore = defineStore("categories", () => {
     }
   };
 
-  const getDepartments = async () => {
+  const getLocations = async () => {
     try {
-      const response = await http.get("/departments");
-      departments.value = response.data.data;
+      const response = await http.get("/locations");
+      locations.value = response.data.data;
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Erro ao carregar departamentos"
-      );
+      toast.error(error.response?.data?.message || "Erro ao carregar locais");
     }
   };
 
@@ -81,8 +79,14 @@ export const useCategoriesStore = defineStore("categories", () => {
 
   const createCategory = async (payload) => {
     creating.value = true;
+    console.log(payload);
     try {
-      const response = await http.post("/categories", payload);
+      const response = await http.post("/categories", {
+        name: payload.name,
+        location_id: payload.location?.id,
+        confirmation: payload.confirmation,
+        active: payload.active,
+      });
       const newCategory = response.data.data;
       categories.data.push(newCategory);
       toast.success("Registro criado com sucesso!");
@@ -95,17 +99,17 @@ export const useCategoriesStore = defineStore("categories", () => {
 
   const updateCategory = async (id, payload) => {
     updating.value = true;
-    payload.department =
-      typeof payload.department === "object"
-        ? payload.department?.value ?? ""
-        : payload.department;
-
     try {
-      const response = await http.put(`/categories/${id}`, payload);
-      const updatedCategory = response.data.data;
+      const response = await http.put(`/categories/${id}`, {
+        name: payload.name,
+        location_id: payload.location?.id,
+        confirmation: payload.confirmation,
+        active: payload.active,
+      });
+      //const updatedCategory = response.data.data;
       const index = categories.data.findIndex((module) => module.id === id);
       if (index !== -1) {
-        categories.data[index] = updatedCategory;
+        categories.data[index] = payload;
       }
       toast.success("Registro atualizado com sucesso!");
     } catch (error) {
@@ -144,14 +148,14 @@ export const useCategoriesStore = defineStore("categories", () => {
 
   return {
     categories,
-    departments,
+    locations,
     search,
     loading,
     creating,
     updating,
     deleting,
     getCategories,
-    getDepartments,
+    getLocations,
     findCategoryById,
     createCategory,
     updateCategory,

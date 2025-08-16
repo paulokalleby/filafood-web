@@ -10,3 +10,7 @@
     background-color: rgb(var(--v-theme-primary)) !important;
     color: white !important;
 }
+
+.td-actions {
+    min-width: 155px !important;
+}

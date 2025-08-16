@@ -1,13 +1,13 @@
 <script setup>
 import { ref, watch, computed } from "vue";
-import { useCategoriesStore } from "@/stores/categories";
+import { useLocationsStore } from "@/stores/locations";
 
 const props = defineProps({
   modelValue: Boolean,
   id: String,
 });
 const emit = defineEmits(["update:modelValue"]);
-const store = useCategoriesStore();
+const store = useLocationsStore();
 const data = ref(null);
 
 const isOpen = computed({
@@ -22,7 +22,7 @@ watch(
   async (id) => {
     if (props.modelValue && id) {
       data.value = null;
-      data.value = await store.findCategoryById(id);
+      data.value = await store.findLocationById(id);
     }
   },
   { immediate: true }
@@ -40,7 +40,9 @@ watch(
   >
     <v-card :loading="store.loading">
       <v-toolbar color="white">
-        <v-toolbar-title class="font-weight-bold">Categoria</v-toolbar-title>
+        <v-toolbar-title class="font-weight-bold"
+          >Local de Preparo</v-toolbar-title
+        >
         <v-spacer />
         <v-btn icon @click="close" variant="plain">
           <v-icon>lucide:X</v-icon>
@@ -48,11 +50,6 @@ watch(
       </v-toolbar>
       <v-card-text class="px-5" v-if="data">
         <p><strong>Nome:</strong> {{ data.name }}</p>
-        <p><strong>Local de Preparo:</strong> {{ data.location.name }}</p>
-        <p>
-          <strong>Confirmar entrega:</strong>
-          {{ data.confirmation ? "Sim" : "Não" }}
-        </p>
         <v-chip
           class="mt-4"
           :color="data.active ? 'green' : 'red'"
