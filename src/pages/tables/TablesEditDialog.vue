@@ -79,7 +79,7 @@ watch(
                 :max="99"
               />
             </v-col>
-            <v-col cols="12" class="py-0 ml-2">
+            <v-col cols="12" class="py-0 ml-1">
               <v-switch v-model="data.active" label="Ativo" hide-details />
             </v-col>
           </v-row>

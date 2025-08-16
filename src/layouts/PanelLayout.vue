@@ -3,15 +3,19 @@ import { ref, computed } from "vue";
 import { useAuthStore } from "@/stores/auth.js";
 import { useDark, useToggle } from "@vueuse/core";
 import { useRoute } from "vue-router";
-// import { getImageSrc } from "@/utils/helpers";
+import EditProfileDialog from "@/pages/auth/EditProfileDialog.vue";
 
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
 const auth = useAuthStore();
 const route = useRoute();
 const isDrawerOpen = ref(true);
-
+const editProfileDialog = ref(false);
 const pageTitle = computed(() => route.meta.title || "");
+
+const openEditProfileDialog = () => {
+  editProfileDialog.value = true;
+};
 </script>
 
 <template>
@@ -178,7 +182,7 @@ const pageTitle = computed(() => route.meta.title || "");
                 <v-icon icon="lucide:Settings" size="16" class="mt-n1"/>
                 Configurações
               </v-list-item> -->
-              <v-list-item link :to="{ name: 'profile' }">
+              <v-list-item link @click.prevent="openEditProfileDialog()">
                 <v-icon icon="lucide:CircleUser" size="16" class="mt-n1" />
                 Minha Conta
               </v-list-item>
@@ -193,6 +197,8 @@ const pageTitle = computed(() => route.meta.title || "");
     </v-navigation-drawer>
 
     <v-responsive>
+      <EditProfileDialog v-model="editProfileDialog" />
+
       <v-main>
         <v-container fluid class="px-lg-12 py-lg-6 px-6">
           <v-row>
