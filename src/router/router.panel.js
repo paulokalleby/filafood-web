@@ -64,12 +64,6 @@ export default {
       component: () => import("@/pages/users/UsersIndex.vue"),
       meta: { permission: "users.index", title: "Usuários" },
     },
-    {
-      path: "/profile",
-      name: "profile",
-      component: () => import("@/pages/auth/Profile.vue"),
-      meta: { title: "Meus Dados" },
-    },
   ],
   meta: { auth: true },
 };
