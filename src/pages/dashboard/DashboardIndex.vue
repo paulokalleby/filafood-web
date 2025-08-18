@@ -66,14 +66,6 @@ const auth = useAuthStore();
             text="Sair"
             @click.prevent="auth.logout"
           ></v-btn>
-          <v-btn
-            color="dark"
-            variant="text"
-            prepend-icon="lucide:SquarePen"
-            text="Editar Perfil"
-            :to="{ name: 'profile' }"
-          >
-          </v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
