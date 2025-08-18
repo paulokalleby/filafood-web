@@ -68,8 +68,7 @@ export const useLocationsStore = defineStore("locations", () => {
     creating.value = true;
     try {
       const response = await http.post("/locations", payload);
-      const newLocation = response.data.data;
-      locations.data.push(newLocation);
+      locations.data.push(response.data.data);
       toast.success("Registro criado com sucesso!");
     } catch (error) {
       toast.error(error.response?.data?.message || "Erro ao criar registro");
@@ -82,10 +81,9 @@ export const useLocationsStore = defineStore("locations", () => {
     updating.value = true;
     try {
       const response = await http.put(`/locations/${id}`, payload);
-      //const updatedLocation = response.data.data;
       const index = locations.data.findIndex((module) => module.id === id);
       if (index !== -1) {
-        locations.data[index] = payload;
+        locations.data[index] = response.data.data;
       }
       toast.success("Registro atualizado com sucesso!");
     } catch (error) {

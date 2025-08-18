@@ -72,8 +72,7 @@ export const useTablesStore = defineStore("tables", () => {
     creating.value = true;
     try {
       const response = await http.post("/tables", payload);
-      const newTable = response.data.data;
-      tables.data.push(newTable);
+      tables.data.push(response.data.data);
       toast.success("Registro criado com sucesso!");
     } catch (error) {
       toast.error(error.response?.data?.message || "Erro ao criar registro");
@@ -100,10 +99,9 @@ export const useTablesStore = defineStore("tables", () => {
     updating.value = true;
     try {
       const response = await http.put(`/tables/${id}`, payload);
-      const updatedTable = response.data.data;
       const index = tables.data.findIndex((module) => module.id === id);
       if (index !== -1) {
-        tables.data[index] = updatedTable;
+        tables.data[index] = response.data.data;
       }
       toast.success("Registro atualizado com sucesso!");
     } catch (error) {

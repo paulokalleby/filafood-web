@@ -87,8 +87,7 @@ export const useCategoriesStore = defineStore("categories", () => {
         confirmation: payload.confirmation,
         active: payload.active,
       });
-      const newCategory = response.data.data;
-      categories.data.push(newCategory);
+      categories.data.push(response.data.data);
       toast.success("Registro criado com sucesso!");
     } catch (error) {
       toast.error(error.response?.data?.message || "Erro ao criar registro");
@@ -106,10 +105,9 @@ export const useCategoriesStore = defineStore("categories", () => {
         confirmation: payload.confirmation,
         active: payload.active,
       });
-      //const updatedCategory = response.data.data;
       const index = categories.data.findIndex((module) => module.id === id);
       if (index !== -1) {
-        categories.data[index] = payload;
+        categories.data[index] = response.data.data;
       }
       toast.success("Registro atualizado com sucesso!");
     } catch (error) {

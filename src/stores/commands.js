@@ -83,8 +83,7 @@ export const useCommandsStore = defineStore("commands", () => {
     creating.value = true;
     try {
       const response = await http.post("/commands", payload);
-      const newCommand = response.data.data;
-      commands.data.push(newCommand);
+      commands.data.push(response.data.data);
       toast.success("Registro criado com sucesso!");
     } catch (error) {
       toast.error(error.response?.data?.message || "Erro ao criar registro");
@@ -97,10 +96,9 @@ export const useCommandsStore = defineStore("commands", () => {
     updating.value = true;
     try {
       const response = await http.put(`/commands/${id}`, payload);
-      const updatedCommand = response.data.data;
       const index = commands.data.findIndex((module) => module.id === id);
       if (index !== -1) {
-        commands.data[index] = updatedCommand;
+        commands.data[index] = response.data.data;
       }
       toast.success("Registro atualizado com sucesso!");
     } catch (error) {

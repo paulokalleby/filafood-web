@@ -102,9 +102,7 @@ export const useProductsStore = defineStore("products", () => {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      const newProduct = response.data.data;
-      products.data.push(newProduct);
+      products.data.push(response.data.data);
       toast.success("Registro criado com sucesso!");
     } catch (error) {
       toast.error(error.response?.data?.message || "Erro ao criar registro");
@@ -135,11 +133,8 @@ export const useProductsStore = defineStore("products", () => {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      //const updateProduct = response.data.data;
-      payload.image = response.data.data.image;
       const index = products.data.findIndex((product) => product.id === id);
-      if (index !== -1) products.data[index] = payload;
+      if (index !== -1) products.data[index] = response.data.data;
       toast.success("Registro atualizado com sucesso!");
     } catch (error) {
       toast.error(

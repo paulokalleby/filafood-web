@@ -101,10 +101,9 @@ export const useUsersStore = defineStore("users", () => {
         ...payload,
         roles: payload.roles.map((role) => role.id),
       });
-      const updatedUser = response.data.data;
       const index = users.data.findIndex((user) => user.id == id);
       if (index !== -1) {
-        users.data[index] = updatedUser;
+        users.data[index] = response.data.data;
       }
       toast.success("Registro atualizado com sucesso!");
     } catch (error) {
