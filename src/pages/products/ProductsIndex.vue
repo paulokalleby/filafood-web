@@ -71,7 +71,7 @@ const categoriesWithAll = computed(() => {
     </v-col>
   </v-row>
 
-  <v-row class="mt-4">
+  <v-row class="my-4">
     <v-col cols="12" md="3" class="py-0">
       <v-text-field
         v-model="store.search.name"

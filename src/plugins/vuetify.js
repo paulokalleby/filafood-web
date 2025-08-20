@@ -39,7 +39,7 @@ export default createVuetify({
     VNavigationDrawer: {
       VList: {
         VListItem: {
-          rounded: "lg",
+          // rounded: "lg",
           class: "custom-list-item",
         },
       },
@@ -50,7 +50,7 @@ export default createVuetify({
       rounded: false,
       VAppBarNavIcon: {
         //size: "large",
-        rounded: "lg",
+        // rounded: "lg",
       },
     },
     VCard: {
@@ -59,14 +59,14 @@ export default createVuetify({
     VTextField: {
       color: "primary",
       variant: "outlined",
-      rounded: "lg",
+      // rounded: "lg",
       density: "compact",
       clearIcon: "lucide:CircleX",
     },
     VNumberInput: {
       color: "primary",
       variant: "outlined",
-      rounded: "lg",
+      // rounded: "lg",
       density: "compact",
       clearIcon: "lucide:CircleX",
       VBtn: {
@@ -78,14 +78,14 @@ export default createVuetify({
     VTextarea: {
       color: "primary",
       variant: "outlined",
-      rounded: "lg",
+      // rounded: "lg",
       density: "compact",
       clearIcon: "lucide:CircleX",
     },
     VSelect: {
       color: "primary",
       variant: "outlined",
-      rounded: "lg",
+      // rounded: "lg",
       density: "compact",
       // prependIcon: "lucideHome",
       dropdown: "lucide:ChevronDown",
@@ -94,7 +94,7 @@ export default createVuetify({
     VCombobox: {
       color: "primary",
       variant: "outlined",
-      rounded: "lg",
+      // rounded: "lg",
       density: "compact",
       dropdown: "lucide:ChevronDown",
       clearIcon: "lucide:CircleX",
@@ -113,7 +113,7 @@ export default createVuetify({
       clearIcon: "lucide:CircleX",
     },
     VBtn: {
-      rounded: "lg",
+      rounded: "md",
       variant: "flat",
       class: "text-subtitle-2 shadow-lg",
     },
@@ -143,7 +143,7 @@ export default createVuetify({
       light: {
         dark: false,
         colors: {
-          primary: "#f97316", // #00BB85 - #3b82f6 -#f97316 - #EA2F2B
+          primary: "#3b82f6", // #00BB85 - #3b82f6 -#f97316 - #EA2F2B
           secondary: "#f9f9f9",
           white: "#fff",
           light: "#fff",
@@ -160,7 +160,7 @@ export default createVuetify({
       dark: {
         dark: true,
         colors: {
-          primary: "#f97316",
+          primary: "#3b82f6",
           secondary: "#212121",
           white: "#0A0A0A",
           light: "#fff",
