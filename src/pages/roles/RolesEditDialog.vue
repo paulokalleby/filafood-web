@@ -1,12 +1,8 @@
 <script setup>
-import { ref, watch, onMounted, computed } from "vue";
+import { ref, watch, computed } from "vue";
 import useVuelidate from "@vuelidate/core";
 import { roleRules } from "@/validations/role.rules";
 import { useRolesStore } from "@/stores/roles";
-
-onMounted(async () => {
-  await store.getResources();
-});
 
 const props = defineProps({
   modelValue: Boolean,

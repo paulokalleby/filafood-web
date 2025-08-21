@@ -2,11 +2,7 @@
 import useVuelidate from "@vuelidate/core";
 import { roleRules } from "@/validations/role.rules";
 import { useRolesStore } from "@/stores/roles";
-import { ref, onMounted, computed } from "vue";
-
-onMounted(() => {
-  store.getResources();
-});
+import { ref, computed } from "vue";
 
 const store = useRolesStore();
 
