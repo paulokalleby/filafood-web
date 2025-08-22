@@ -39,7 +39,7 @@ export default createVuetify({
     VNavigationDrawer: {
       VList: {
         VListItem: {
-          // rounded: "lg",
+          rounded: "lg",
           class: "custom-list-item",
         },
       },
@@ -50,7 +50,7 @@ export default createVuetify({
       rounded: false,
       VAppBarNavIcon: {
         //size: "large",
-        // rounded: "lg",
+        rounded: "lg",
       },
     },
     VCard: {
@@ -59,14 +59,14 @@ export default createVuetify({
     VTextField: {
       color: "primary",
       variant: "outlined",
-      // rounded: "lg",
+      rounded: "lg",
       density: "compact",
       clearIcon: "lucide:CircleX",
     },
     VNumberInput: {
       color: "primary",
       variant: "outlined",
-      // rounded: "lg",
+      rounded: "lg",
       density: "compact",
       clearIcon: "lucide:CircleX",
       VBtn: {
@@ -78,14 +78,14 @@ export default createVuetify({
     VTextarea: {
       color: "primary",
       variant: "outlined",
-      // rounded: "lg",
+      rounded: "lg",
       density: "compact",
       clearIcon: "lucide:CircleX",
     },
     VSelect: {
       color: "primary",
       variant: "outlined",
-      // rounded: "lg",
+      rounded: "lg",
       density: "compact",
       // prependIcon: "lucideHome",
       dropdown: "lucide:ChevronDown",
@@ -94,7 +94,7 @@ export default createVuetify({
     VCombobox: {
       color: "primary",
       variant: "outlined",
-      // rounded: "lg",
+      rounded: "lg",
       density: "compact",
       dropdown: "lucide:ChevronDown",
       clearIcon: "lucide:CircleX",
@@ -113,7 +113,7 @@ export default createVuetify({
       clearIcon: "lucide:CircleX",
     },
     VBtn: {
-      rounded: "md",
+      rounded: "lg",
       variant: "flat",
       class: "text-subtitle-2 shadow-lg",
     },
@@ -151,6 +151,7 @@ export default createVuetify({
           success: "#00BB85",
           background: "#fff",
           surface: "#fff",
+          sidebar: "#0A0A0A",
         },
         variables: {
           "border-radius-root": "12px",
@@ -168,6 +169,7 @@ export default createVuetify({
           success: "#00BB85",
           background: "#0A0A0A",
           surface: "#0A0A0A",
+          sidebar: "#0A0A0A",
         },
         variables: {
           "border-radius-root": "12px", // Bordas arredondadas

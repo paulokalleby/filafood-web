@@ -6,9 +6,9 @@ const auth = useAuthStore();
 <template>
   <v-row class="mb-8">
     <v-col cols="12">
-      <v-breadcrumbs class="py-0 px-0">
+      <!-- <v-breadcrumbs class="py-0 px-0">
         <v-breadcrumbs-item disabled> Dashboard </v-breadcrumbs-item>
-      </v-breadcrumbs>
+      </v-breadcrumbs> -->
     </v-col>
   </v-row>
 

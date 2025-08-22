@@ -1,5 +1,5 @@
 export default {
-  component: () => import("@/layouts/PanelLayout.vue"),
+  component: () => import("@/layouts/PanelLayout2.vue"),
   redirect: { name: "dashboard.index" },
   path: "/",
   children: [
